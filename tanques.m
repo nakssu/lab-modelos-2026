@@ -83,22 +83,28 @@ disp(sys_tf(2));
 
 % grafo de la comparacion de respuestas al escalon para validacion
 [y_ss, ~] = step(sys_ss, t_sim);
-[y_tf, ~] = step(sys_tf, t_sim);
 
-figure('Name', 'pregunta 2: verificacion SS vs TF', 'NumberTitle', 'off');
+% Simulamos las funciones de transferencia de forma independiente para evitar conflictos de dimensiones
+[y_tf1, ~] = step(sys_tf(1), t_sim); % Respuesta para h1
+[y_tf2, ~] = step(sys_tf(2), t_sim); % Respuesta para h2
+
+figure('Name', 'Pregunta 2: Verificación SS vs TF', 'NumberTitle', 'off');
+
+% Subplot para Tanque 1
 subplot(2,1,1);
-plot(t_sim, y_ss(:,1,1), 'b-', 'LineWidth', 2); hold on;
-plot(t_sim, y_tf(:,1,1), 'ko', 'MarkerSize', 4);
+plot(t_sim, y_ss(:,1), 'b-', 'LineWidth', 2); hold on;
+plot(t_sim, y_tf1, 'ko', 'MarkerSize', 4);
 grid on;
-title('validacion de modelos para tanque 1 (h_1)');
-ylabel('altura [m]');
-legend('espacio de estados (SS)', 'funcion de transferencia (TF)');
+title('Validación de Modelos para Tanque 1 (h_1)');
+ylabel('Altura [m]');
+legend('Espacio de Estados (SS)', 'Función de Transferencia (TF)', 'Location', 'SouthEast');
 
+% Subplot para Tanque 2
 subplot(2,1,2);
-plot(t_sim, y_ss(:,2,1), 'r-', 'LineWidth', 2); hold on;
-plot(t_sim, y_tf(:,1,2), 'ko', 'MarkerSize', 4);
+plot(t_sim, y_ss(:,2), 'r-', 'LineWidth', 2); hold on;
+plot(t_sim, y_tf2, 'ko', 'MarkerSize', 4);
 grid on;
-title('validacion de modelos para tanque 2 (h_2)');
-xlabel('tiempo (segundos)');
-ylabel('altura [m]');
-legend('espacio de estados (SS)', 'funcion de transferencia (TF)');
+title('Validación de Modelos para Tanque 2 (h_2)');
+xlabel('Tiempo (segundos)');
+ylabel('Altura [m]');
+legend('Espacio de Estados (SS)', 'Función de Transferencia (TF)', 'Location', 'SouthEast');
